@@ -1,0 +1,20 @@
+{% load static %} {% load bootstrap4 %} {% bootstrap_css %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Book</title>
+  </head>
+  <body>
+    {# Display a form #}
+    <div class="container">
+        <form method="post" style="margin: 50 auto;">
+            {% csrf_token %} {% bootstrap_form form %} {% buttons %}
+            <button class="btn btn-primary w-100" type="submit">Add Book</button>
+            {% endbuttons %}
+        </form>
+    </div>
+  </body>
+</html>

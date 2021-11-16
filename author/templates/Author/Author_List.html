@@ -1,0 +1,43 @@
+{% load static %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generic</title>
+    <style>
+
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <table class="w-100 table" style="margin:50 auto;">
+            <tr>
+                <th>Book Id</th>
+                <th>Book title</th>
+                <th>Book Category</th>
+                <th>Book Auther ID</th>
+                <th>Delete</th>
+            </tr>
+            {% for i in booklist %}
+            
+            <tr>
+                <td>{{i.bid}}</td>
+                <td>{{i.title}}</td>
+                <td>{{i.category}}</td>
+                <td>{{i.author_forien_id}}</td>
+                <td><button class="btn btn-danger" onclick=>X</button></td>
+            </tr>
+            {% endfor %}
+            
+        </table>
+    </div>
+    </body>
+    </html>
+    

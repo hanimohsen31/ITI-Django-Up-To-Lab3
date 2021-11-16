@@ -1,0 +1,77 @@
+in book:forms.py
+-----
+class AddBookForm(forms.ModelForm):
+    class Meta:
+        model = Book
+        fields = '__all__'
+class BookUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Book
+        fields = ['title','category']
+----------------------------------
+in book:urls.py
+-----
+urlpatterns = [
+    path('', views.BookList),
+    path('addbook', views.BookAdd,name='addbook'),
+    path('booklist', views.BookList,name='booklist'),
+    path('update/<int:bid>', views.BookUpdate,name='update'),
+    path('delete/<int:bid>', views.BookDelete,name='delete'),
+]
+----------------------------------
+in book:views.py
+-----
+def BookUpdate(request,bid):
+    book = Book.objects.get(bid=bid)
+    print(book)
+    form = BookUpdateForm(request.POST or None ,instance= book)
+    if form.is_valid():
+        form.save()
+        return redirect('booklist')
+    return render(request, 'book/bookedit.html', {'form': form})
+    
+def BookDelete(request,bid):
+    book = Book.objects.get(bid=bid).delete()
+    return redirect('booklist')
+----------------------------------
+in book:templates:book:bookedit.html
+-----
+<form method="post" style="margin: 50 auto;">
+    {% csrf_token %} {% bootstrap_form form %} {% buttons %}
+    <button class="btn btn-primary w-100" type="submit">Add Book</button>
+    {% endbuttons %}
+</form>
+----------------------------------
+in book:templates:book:bookedit.html
+-----
+<form method="post" style="margin: 50 auto;">
+    {% csrf_token %} {% bootstrap_form form %} {% buttons %}
+    <button class="btn btn-primary w-100" type="submit">Update Book</button>
+    {% endbuttons %}
+</form>
+----------------------------------
+in book:templates:book:booklist.html
+-----
+<table class="w-100 table" style="margin:50 auto;text-align: center;">
+    <tr>
+        <th>Book Id</th>
+        <th>Book title</th>
+        <th>Book Category</th>
+        <th>Book Auther</th>
+        <th>Update</th>
+        <th>Delete</th>
+    </tr>
+
+    {% for i in booklist %}
+        <tr>
+            <td>{{i.bid}}</td>
+            <td>{{i.title}}</td>
+            <td>{{i.category}}</td>
+            <td>{{i.author_forien_id}}</td>
+            <td><a class="btn btn-info w-100" href='{% url "update" i.bid %}' style="margin: 0 auto 10px auto;">Update Book</a></td>
+            <td><a class="btn btn-danger" href='{% url "delete" i.bid %}' type="submit">Delete</a></td>
+        </tr>
+        {% endfor %}
+    
+</table>
+----------------------------------
